@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:si="http://www.springframework.org/schema/integration"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://www.springframework.org/schema/integration"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                                 http://www.springframework.org/schema/beans/spring-beans.xsd
+                                 http://www.springframework.org/schema/integration
+                                 http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+    <!-- integration channel required to post the stock web service pojo to be transformed accordingly -->
+    <si:channel id="inputTransformChannel" />
+    <!-- integration channel which queues requests and provides the transformed object -->
+    <si:channel id="outputTransformChannel">
+        <si:queue capacity="5"/>
+    </si:channel>
+
+    <!-- adapter which feeds the Stock object from the web service and maps it to the Stock entity via the converter class -->
+    <si:transformer input-channel="inputTransformChannel" output-channel="outputTransformChannel" ref="converter" />
+
+    <!-- integration channel used to post the transformed entity to be persisted in the database -->
+    <si:channel id="postChannel"/>
+
+    <!-- adapter used to post the Stock entity to the dataProcessorImpl class so that it can be persisted via the persist method -->
+    <service-activator input-channel="postChannel" ref="dataProcessorImpl" method="persist"/>
+
+</beans:beans>

@@ -4,11 +4,16 @@ allprojects {
 	group = 'com.stock'
 	version = '0.0.1-SNAPSHOT'
 }
-
+ext{
+	lombokVersion="1.16.6"
+	hsqldbVersion="2.0.0"
+	hibernateJpaVersion="1.0.1.Final"
+}
 subprojects {
-
+	apply plugin: 'idea'
 	apply plugin: 'java'
-	
+	apply plugin: 'application'
+	mainClassName = "com.Stock.StockWsApplication"
 	sourceCompatibility = 1.8
 	targetCompatibility = 1.8 
 	

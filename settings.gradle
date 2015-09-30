@@ -1,1 +1,2 @@
 include 'stock-ws', 'stock-data'
+rootProject.name = 'stock-system'

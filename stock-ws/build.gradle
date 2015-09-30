@@ -9,16 +9,20 @@ buildscript {
 		classpath('io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE')
     }
 }
+
 apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management'
 
 description = 'stock-ws'
 
 dependencies {
+    compile("org.projectlombok:lombok:$lombokVersion")
     compile("org.springframework.boot:spring-boot-starter-data-jpa:$project.ext.springBootVersion")
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-integration')
-    testCompile('org.springframework.boot:spring-boot-starter-test') 
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile('com.google.code.gson:gson:2.3.1')
     compile project(":stock-data")
+    compile("ma.glasnost.orika:orika-core:1.1.4")
 }

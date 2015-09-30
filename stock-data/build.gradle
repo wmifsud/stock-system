@@ -9,14 +9,19 @@ buildscript {
 		classpath('io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE')
     }
 }
+
+apply plugin: 'java'
 apply plugin: 'spring-boot'
 apply plugin: 'io.spring.dependency-management'
 
 description = 'stock-data'
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-data-jpa:$project.ext.springBootVersion")
-	compile('org.springframework.boot:spring-boot-starter-data-rest')
-    compile('org.springframework.boot:spring-boot-starter-integration')
-    runtime('org.hsqldb:hsqldb')
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
+//    compile("org.springframework.boot:spring-boot-starter-web")
+//    compile("org.springframework.boot:spring-boot-starter-integration")
+    compile("org.projectlombok:lombok:$lombokVersion")
+//    testCompile("org.springframework.boot:spring-boot-starter-test")
+    runtime("org.hsqldb:hsqldb:${hsqldbVersion}")
 }

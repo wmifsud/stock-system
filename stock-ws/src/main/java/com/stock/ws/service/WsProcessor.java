@@ -1,8 +1,9 @@
 package com.stock.ws.service;
 
 import com.stock.data.DataProcessor;
-import com.stock.ws.service.helper.Integrator;
+import com.stock.ws.pojo.ShowStock;
 import com.stock.ws.pojo.Stock;
+import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,17 +18,19 @@ import org.springframework.stereotype.Service;
 public class WsProcessor
 {
     @Autowired
+    private MapperFacade mapper;
+    @Autowired
     private Integrator integrator;
     @Autowired
     private DataProcessor dataProcessor;
 
     public boolean post(Stock stock)
     {
-        return integrator.processStock(stock);
+        return integrator.postStock(mapper.map(stock, com.stock.data.entity.Stock.class));
     }
 
-    public Long getLastValue()
+    public ShowStock getLastStock()
     {
-        return dataProcessor.getLastValue();
+        return mapper.map(dataProcessor.getLastStock(), ShowStock.class);
     }
 }

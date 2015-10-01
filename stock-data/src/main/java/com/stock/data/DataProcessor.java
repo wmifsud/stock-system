@@ -9,5 +9,5 @@ import com.stock.data.entity.Stock;
 public interface DataProcessor
 {
     void persist(Stock stock);
-    long getLastValue();
+    Stock getLastStock();
 }

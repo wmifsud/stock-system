@@ -5,9 +5,14 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:$project.ext.springBootVersion")
-		classpath('io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE')
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+		classpath("io.spring.gradle:dependency-management-plugin:$dependencyManagementVersion")
     }
+}
+
+ext{
+    gsonVersion="2.3.1"
+    orikaVersion="1.1.4"
 }
 
 apply plugin: 'spring-boot'
@@ -17,12 +22,10 @@ description = 'stock-ws'
 
 dependencies {
     compile("org.projectlombok:lombok:$lombokVersion")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa:$project.ext.springBootVersion")
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('org.springframework.boot:spring-boot-starter-integration')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    compile('com.google.code.gson:gson:2.3.1')
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-integration")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    compile("com.google.code.gson:gson:$gsonVersion")
     compile project(":stock-data")
-    compile("ma.glasnost.orika:orika-core:1.1.4")
+    compile("ma.glasnost.orika:orika-core:$orikaVersion")
 }

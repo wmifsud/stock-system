@@ -1,26 +1,22 @@
 allprojects {
+	apply plugin: 'java'
 	apply plugin: 'idea'
-	
 	group = 'com.stock'
 	version = '0.0.1-SNAPSHOT'
 }
 ext{
 	lombokVersion="1.16.6"
-	hsqldbVersion="2.0.0"
-	hibernateJpaVersion="1.0.1.Final"
+	springBootVersion = '1.2.6.RELEASE'
+	dependencyManagementVersion="0.5.2.RELEASE"
 }
 subprojects {
-	apply plugin: 'idea'
 	apply plugin: 'java'
+	apply plugin: 'idea'
 	apply plugin: 'application'
-	mainClassName = "com.Stock.StockWsApplication"
+	mainClassName = "com.stock.StockWsApplication"
 	sourceCompatibility = 1.8
-	targetCompatibility = 1.8 
-	
-	project.ext {
-		springBootVersion = '1.2.6.RELEASE'
-	}
-	
+	targetCompatibility = 1.8
+
 	repositories {
 		mavenLocal()
 		mavenCentral()

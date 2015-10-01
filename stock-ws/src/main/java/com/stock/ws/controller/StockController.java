@@ -1,5 +1,6 @@
 package com.stock.ws.controller;
 
+import com.stock.ws.pojo.ShowStock;
 import com.stock.ws.service.WsProcessor;
 import com.stock.ws.pojo.Stock;
 import com.stock.ws.pojo.StockType;
@@ -33,12 +34,12 @@ public class StockController
         return wasSuccessful;
     }
 
-    @RequestMapping(value = "/getLastStockId", method = RequestMethod.GET)
-    public Long getLastStockId()
+    @RequestMapping(value = "/getLastStock", method = RequestMethod.GET)
+    public Stock getLastStock()
     {
-        log.info("Received request to retrieve the last id persisted");
-        long lastValue = wsProcessor.getLastValue();
-        log.debug("Last id retrieved: {}", lastValue);
-        return lastValue;
+        log.info("Received request to retrieve the last stock persisted");
+        ShowStock showStock = wsProcessor.getLastStock();
+        log.debug("Last stock retrieved: {}", showStock);
+        return showStock;
     }
 }

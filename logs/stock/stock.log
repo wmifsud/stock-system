@@ -1,0 +1,10 @@
+INFO: 2015-10-02 10:15:13,192 [main] [StartupInfoLogger.java] Starting StockWsApplication on ITDPLAP007113 with PID 7928 (C:\DevTools\Code\other\stock-system\stock-ws\build\classes\main started by Waylon.Mifsud in C:\DevTools\Code\other\stock-system)
+INFO: 2015-10-02 10:15:27,743 [main] [StartupInfoLogger.java] Started StockWsApplication in 15.867 seconds (JVM running for 17.248)
+INFO: 2015-10-02 10:16:14,175 [http-nio-8080-exec-4] [StockController.java] Received request to retrieve the last stock persisted
+INFO: 2015-10-02 10:16:14,576 [http-nio-8080-exec-4] [DataProcessorImpl.java] Retrieved the following stock with maxId: null
+INFO: 2015-10-02 10:16:49,932 [http-nio-8080-exec-5] [StockController.java] Received request to retrieve the last stock persisted
+INFO: 2015-10-02 10:16:49,936 [http-nio-8080-exec-5] [DataProcessorImpl.java] Retrieved the following stock with maxId: null
+INFO: 2015-10-02 10:16:50,684 [http-nio-8080-exec-6] [StockController.java] Received request to retrieve the last stock persisted
+INFO: 2015-10-02 10:16:50,685 [http-nio-8080-exec-6] [DataProcessorImpl.java] Retrieved the following stock with maxId: null
+INFO: 2015-10-02 10:16:51,234 [http-nio-8080-exec-7] [StockController.java] Received request to retrieve the last stock persisted
+INFO: 2015-10-02 10:16:51,235 [http-nio-8080-exec-7] [DataProcessorImpl.java] Retrieved the following stock with maxId: null

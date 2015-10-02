@@ -1,0 +1,16 @@
+INFO: 2015-10-02 10:14:45,880 [Test worker] [StartupInfoLogger.java] Starting StockControllerTest on ITDPLAP007113 with PID 2536 (C:\DevTools\Code\other\stock-system\stock-ws\build\classes\test started by Waylon.Mifsud in C:\DevTools\Code\other\stock-system\stock-ws)
+INFO: 2015-10-02 10:14:56,493 [Test worker] [StartupInfoLogger.java] Started StockControllerTest in 10.905 seconds (JVM running for 12.589)
+INFO: 2015-10-02 10:14:56,969 [Test worker] [StockController.java] Received request to setStock with value: 10 and type: AMZO
+INFO: 2015-10-02 10:14:57,141 [task-scheduler-1] [DataProcessorImpl.java] Storing Stock(id=null, value=10, type=AMZO) in database
+INFO: 2015-10-02 10:14:57,178 [Test worker] [StockController.java] Received request to setStock with value: 10 and type: AMZO
+INFO: 2015-10-02 10:14:57,185 [Test worker] [StockController.java] Received request to setStock with value: 10 and type: GOOG
+INFO: 2015-10-02 10:14:57,193 [Test worker] [StockController.java] Received request to setStock with value: 10 and type: APPL
+INFO: 2015-10-02 10:14:57,320 [task-scheduler-1] [DataProcessorImpl.java] Storing Stock(id=null, value=10, type=AMZO) in database
+INFO: 2015-10-02 10:14:57,325 [task-scheduler-1] [DataProcessorImpl.java] Storing Stock(id=null, value=10, type=GOOG) in database
+INFO: 2015-10-02 10:14:57,329 [task-scheduler-1] [DataProcessorImpl.java] Storing Stock(id=null, value=10, type=APPL) in database
+INFO: 2015-10-02 10:14:57,695 [Test worker] [StockController.java] Received request to retrieve the last stock persisted
+INFO: 2015-10-02 10:14:58,184 [Test worker] [DataProcessorImpl.java] Retrieved the following stock with maxId: Stock(id=4, value=10, type=APPL)
+INFO: 2015-10-02 10:14:58,312 [Test worker] [StockController.java] Received request to setStock with value: 10 and type: APPL
+INFO: 2015-10-02 10:14:58,313 [task-scheduler-1] [DataProcessorImpl.java] Storing Stock(id=null, value=10, type=APPL) in database
+INFO: 2015-10-02 10:14:58,818 [Test worker] [StockController.java] Received request to retrieve the last stock persisted
+INFO: 2015-10-02 10:14:58,834 [Test worker] [DataProcessorImpl.java] Retrieved the following stock with maxId: Stock(id=5, value=10, type=APPL)

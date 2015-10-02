@@ -20,5 +20,9 @@ Retrieving the last stock in the database.
 
     /getLastStock Gets the last stock from the database.
 
+Sample JSON Response
+
+    {"value":10,"type":"APPL"},"id":3}
+
 
 Logs are written into the /logs/stock/ directory under the name stock.log all configured in logback.xml

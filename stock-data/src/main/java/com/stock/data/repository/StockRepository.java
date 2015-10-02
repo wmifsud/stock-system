@@ -11,6 +11,6 @@ import org.springframework.data.repository.CrudRepository;
  *
  * Interface used to persist Stock object in the database.
  */
-public interface StockRepository extends CrudRepository<Stock, Long>, QueryDslPredicateExecutor<Stock> {
+public interface StockRepository extends CrudRepository<Stock, Long>, QueryDslPredicateExecutor<Stock>, StockRepositoryCustom {
 
 }

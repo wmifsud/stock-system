@@ -1,8 +1,8 @@
 package com.stock.data;
 
 import com.stock.data.entity.Stock;
-import com.stock.data.repository.query.QueryStockRepository;
 import com.stock.data.repository.StockRepository;
+import com.stock.data.repository.StockRepositoryImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +20,6 @@ public class DataProcessorImpl implements DataProcessor {
 
     @Autowired
     private StockRepository stockRepository;
-    @Autowired
-    private QueryStockRepository queryStockRepository;
 
     /**
      * Method called to store the Stock entity to the database.
@@ -40,7 +38,7 @@ public class DataProcessorImpl implements DataProcessor {
      */
     @Override
     public Stock getLastStock() {
-        Stock stock = queryStockRepository.findByMaxId();
+        Stock stock = stockRepository.findByMaxId();
         log.info("Retrieved the following stock with maxId: {}", stock);
         return stock;
     }

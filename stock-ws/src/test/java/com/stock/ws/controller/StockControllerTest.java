@@ -5,8 +5,10 @@ import com.stock.Utils;
 import com.stock.ws.pojo.Stock;
 import com.stock.ws.pojo.StockType;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -15,7 +17,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -26,36 +27,56 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author waylon.mifsud
  * @since 30/09/2015
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = StockWsApplication.class)
 @WebAppConfiguration
-public class StockControllerTest
-{
+@RunWith(SpringJUnit4ClassRunner.class)
+//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@SpringApplicationConfiguration(classes = StockWsApplication.class)
+public class StockControllerTest {
+
     @Autowired
     public WebApplicationContext wac;
 
     public MockMvc mockMvc;
 
-    public static final String SETTER_URL = "/setStock";
-    public static final String GETTER_URL = "/getLastStock";
-    public static final Long CORRECT_VALUE = 10L;
-    public static final Long INCORRECT_MAX_VALUE = 1001L;
-    public static final Long INCORRECT_MIN_VALUE = -1L;
-    public static final String INCORRECT_MAX_VALUE_MSG = "value must be less than or equal to 1000";
-    public static final String INCORRECT_MIN_VALUE_MSG = "value must be greater than or equal to 0";
-    public static final String NULL_VALUE_MSG = "value must not be null";
-    public static final String NULL_TYPE_MSG = "type must not be null";
-    public static final String STOCK_PERSISTED = "true";
-    //required to keep track of last record which was
+    private static final String SETTER_URL = "/setStock";
+    private static final String GETTER_URL = "/getLastStock";
+    private static final Long CORRECT_VALUE = 10L;
+    private static final Long INCORRECT_MAX_VALUE = 1001L;
+    private static final Long INCORRECT_MIN_VALUE = -1L;
+    private static final String INCORRECT_MAX_VALUE_MSG = "value must be less than or equal to 1000";
+    private static final String INCORRECT_MIN_VALUE_MSG = "value must be greater than or equal to 0";
+    private static final String NULL_VALUE_MSG = "value must not be null";
+    private static final String NULL_TYPE_MSG = "type must not be null";
+    private static final String STOCK_PERSISTED = "true";
+    // required to keep track of last record which was
     // persisted in the database so that proper assertions can be
     // carried out on the last id retrieved by the data processor.
-    public static int lastId;
+    private static long lastId = 0;
+    // required to give enough time to the data
+    // processor to persist the last stock in the database
+    // since in some rare scenarios it was returning the previous
+    // stock just before persisting the new stock in the database.
+    private static long sleepTime = 500;
 
     @Before
-    public void setup()
-    {
+    public void setup() {
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    }
+
+    /**
+     * Required to build json string in order
+     * to be able to assert the whole json object string.
+     * @param stock {@link Stock} the stock which is sent to the web service.
+     * @return {@link String} json string.
+     */
+    private String populateJsonString(Stock stock){
+        return "{\"value\":" +
+                stock.getValue() +
+                ",\"type\":\"" +
+                stock.getType() +
+                "\",\"id\":" +
+                lastId + "}";
     }
 
     /**
@@ -135,21 +156,20 @@ public class StockControllerTest
     }
 
     /**
-     * Tests that the one and only stock is returned after one persist.
+     * Tests that the last stock is returned after one persist.
      * @throws Exception {@link MockMvc} can throw exception.
      */
     @Test
-    @Transactional
-    public void getLastStockIdTestWith1Persist() throws Exception
-    {
-        Stock stock = new Stock(CORRECT_VALUE, StockType.AMZO);
+    public void getLastStockIdTestWith1Persist() throws Exception {
+        Stock stock = new Stock(CORRECT_VALUE, StockType.APPL);
         mockMvc.perform(post(SETTER_URL)
                         .content(Utils.convertToJsonString(stock))
                         .contentType(MediaType.APPLICATION_JSON));
         lastId++;
+        Thread.sleep(sleepTime);
         mockMvc.perform(get(GETTER_URL)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("{\"value\":10,\"type\":\"AMZO\",\"id\":"+ lastId +"}"))
+                .andExpect(content().string(populateJsonString(stock)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -159,9 +179,7 @@ public class StockControllerTest
      * @throws Exception {@link MockMvc} can throw exception.
      */
     @Test
-    @Transactional
-    public void getLastStockIdTestWith3Persists() throws Exception
-    {
+    public void getLastStockIdTestWith3Persists() throws Exception {
         Stock stock = new Stock(CORRECT_VALUE, StockType.AMZO);
         mockMvc.perform(post(SETTER_URL)
                 .content(Utils.convertToJsonString(stock))
@@ -177,10 +195,10 @@ public class StockControllerTest
                 .content(Utils.convertToJsonString(stock))
                 .contentType(MediaType.APPLICATION_JSON));
         lastId++;
-
+        Thread.sleep(sleepTime);
         mockMvc.perform(get(GETTER_URL)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("{\"value\":10,\"type\":\"APPL\",\"id\":"+ lastId +"}"))
+                .andExpect(content().string(populateJsonString(stock)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }

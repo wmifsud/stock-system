@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class DataProcessorImpl implements DataProcessor
-{
+public class DataProcessorImpl implements DataProcessor {
+
     @Autowired
     private StockRepository stockRepository;
     @Autowired
@@ -28,8 +28,7 @@ public class DataProcessorImpl implements DataProcessor
      * @param stock to be stored in the database.
      */
     @Override
-    public void persist(Stock stock)
-    {
+    public void persist(Stock stock) {
         log.info("Storing {} in database", stock);
         stockRepository.save(stock);
     }
@@ -40,8 +39,7 @@ public class DataProcessorImpl implements DataProcessor
      * @return {link Long}
      */
     @Override
-    public Stock getLastStock()
-    {
+    public Stock getLastStock() {
         Stock stock = queryStockRepository.findByMaxId();
         log.info("Retrieved the following stock with maxId: {}", stock);
         return stock;

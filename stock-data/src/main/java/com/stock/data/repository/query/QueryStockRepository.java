@@ -9,5 +9,6 @@ import com.stock.data.entity.Stock;
  * Interface used to fetch last recorded stock.
  */
 public interface QueryStockRepository {
+
     Stock findByMaxId();
 }

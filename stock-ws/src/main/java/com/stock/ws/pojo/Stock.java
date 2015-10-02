@@ -15,8 +15,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Stock
-{
+public class Stock {
     @Min(value = 0, message = "value must be greater than or equal to 0")
     @Max(value = 1000, message = "value must be less than or equal to 1000")
     @NotNull(message = "value must not be null")

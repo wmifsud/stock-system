@@ -14,8 +14,8 @@ import javax.persistence.Id;
 @Data
 @Entity
 @NoArgsConstructor
-public class Stock
-{
+public class Stock {
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;

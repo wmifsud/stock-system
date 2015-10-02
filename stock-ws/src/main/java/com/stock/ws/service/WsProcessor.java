@@ -15,8 +15,7 @@ import org.springframework.stereotype.Service;
  * and the integrator and dataProcessor layers.
  */
 @Service
-public class WsProcessor
-{
+public class WsProcessor {
     @Autowired
     private MapperFacade mapper;
     @Autowired
@@ -24,13 +23,11 @@ public class WsProcessor
     @Autowired
     private DataProcessor dataProcessor;
 
-    public boolean post(Stock stock)
-    {
+    public boolean post(Stock stock) {
         return integrator.postStock(mapper.map(stock, com.stock.data.entity.Stock.class));
     }
 
-    public ShowStock getLastStock()
-    {
+    public ShowStock getLastStock() {
         return mapper.map(dataProcessor.getLastStock(), ShowStock.class);
     }
 }

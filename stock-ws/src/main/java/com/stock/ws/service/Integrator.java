@@ -17,8 +17,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class Integrator
-{
+public class Integrator {
     @Autowired
     private MessageChannel postChannel;
 
@@ -27,8 +26,7 @@ public class Integrator
      * @param stock the {@link com.stock.data.entity.Stock} object to post.
      * @return {@link Boolean} showing if the message was successfully sent to the queue.
      */
-    public boolean postStock(com.stock.data.entity.Stock stock)
-    {
+    public boolean postStock(com.stock.data.entity.Stock stock) {
         Message<?> message = MessageBuilder.withPayload(stock).build();
         return postChannel.send(message);
     }

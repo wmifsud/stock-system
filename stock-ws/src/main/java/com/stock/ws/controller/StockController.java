@@ -20,14 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-public class StockController
-{
+public class StockController {
+
     @Autowired
     private WsProcessor wsProcessor;
 
     @RequestMapping(value = "/setStock", method = RequestMethod.POST)
-    public Boolean setStock(@Validated @RequestBody Stock stock)
-    {
+    public Boolean setStock(@Validated @RequestBody Stock stock) {
         log.info("Received request to setStock with value: {} and type: {}", stock.getValue(), stock.getType());
         boolean wasSuccessful = wsProcessor.post(stock);
         log.debug("Successful request for setStock with value: {}? {}", stock.getValue(), wasSuccessful);
@@ -35,8 +34,7 @@ public class StockController
     }
 
     @RequestMapping(value = "/getLastStock", method = RequestMethod.GET)
-    public Stock getLastStock()
-    {
+    public Stock getLastStock() {
         log.info("Received request to retrieve the last stock persisted");
         ShowStock showStock = wsProcessor.getLastStock();
         log.debug("Last stock retrieved: {}", showStock);

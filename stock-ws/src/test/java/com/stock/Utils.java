@@ -10,12 +10,10 @@ import lombok.NoArgsConstructor;
  * Required to convert objects to json objects when sending rest requests.
  */
 @NoArgsConstructor
-public class Utils
-{
+public class Utils {
     private static Gson gson = new Gson();
 
-    public static String convertToJsonString(Object o)
-    {
+    public static String convertToJsonString(Object o) {
         return gson.toJson(o);
     }
 }

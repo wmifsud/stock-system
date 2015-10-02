@@ -15,7 +15,7 @@
 
     <!-- adapter used to post the Stock entity to the dataProcessorImpl class so that it can be persisted via the persist method -->
     <service-activator input-channel="postChannel" ref="dataProcessorImpl" method="persist">
-        <poller fixed-delay="500"/>
+        <poller fixed-delay="100"/>
     </service-activator>
 
 </beans:beans>

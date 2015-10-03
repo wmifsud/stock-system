@@ -27,4 +27,18 @@ public class StockControllerValidation {
         FieldError error = result.getFieldError();
         return error.getDefaultMessage();
     }
+
+    /**
+     * Any exception which may be thrown by either the
+     * gateway or the database will be caught by this method
+     * and a proper description with the error message will be returned.
+     * @param ex {@link Exception}
+     * @return {@link String} the error message.
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(Exception.class)
+    public String processValidationError(Exception ex) {
+        return ex.getClass().getName() + ": " + ex.getMessage();
+    }
 }

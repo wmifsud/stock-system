@@ -22,12 +22,16 @@ import org.springframework.stereotype.Service;
 @Service
 @EnableCaching
 public class WsProcessor {
+
     @Autowired
     private MapperFacade mapper;
     @Autowired
     private GatewayService gatewayService;
     @Autowired
     private DataProcessor dataProcessor;
+
+    public static final String TIMEOUT_MSG =
+            "Timeout occurred when posting entity via gateway for stock: ";
 
     /**
      * Posts the stock to the gateway which
@@ -36,9 +40,13 @@ public class WsProcessor {
      * @return {@link Stock} with the new id provided by the database.
      */
     public Stock post(Stock stock) {
-        return mapper.map(
-                gatewayService.postStock(
-                        mapper.map(stock, com.stock.data.entity.Stock.class)), ShowStock.class);
+        com.stock.data.entity.Stock result =
+                gatewayService.postStock(mapper.map(stock, com.stock.data.entity.Stock.class));
+        //null returned by gateway signifies timeout
+        if (result == null) {
+            throw new RuntimeException(TIMEOUT_MSG + stock);
+        }
+        return mapper.map(result, ShowStock.class);
     }
 
     /**
@@ -50,7 +58,7 @@ public class WsProcessor {
     }
 
     /**
-     * Bean caching the stock which was stored in the database.
+     * Bean caching last stock which was stored in the database.
      */
     @Bean
     public CacheManager cacheManager() {

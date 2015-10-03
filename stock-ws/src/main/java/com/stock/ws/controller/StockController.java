@@ -1,8 +1,5 @@
 package com.stock.ws.controller;
 
-import com.stock.customer.Customer;
-import com.stock.customer.CustomerService;
-import com.stock.ws.pojo.ShowStock;
 import com.stock.ws.service.WsProcessor;
 import com.stock.ws.pojo.Stock;
 import lombok.extern.slf4j.Slf4j;

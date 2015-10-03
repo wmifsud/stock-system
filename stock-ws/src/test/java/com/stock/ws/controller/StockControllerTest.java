@@ -1,14 +1,12 @@
 package com.stock.ws.controller;
 
+import com.google.gson.Gson;
 import com.stock.StockWsApplication;
-import com.stock.Utils;
 import com.stock.ws.pojo.Stock;
 import com.stock.ws.pojo.StockType;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -29,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
-//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @SpringApplicationConfiguration(classes = StockWsApplication.class)
 public class StockControllerTest {
 
@@ -47,7 +44,6 @@ public class StockControllerTest {
     private static final String INCORRECT_MIN_VALUE_MSG = "value must be greater than or equal to 0";
     private static final String NULL_VALUE_MSG = "value must not be null";
     private static final String NULL_TYPE_MSG = "type must not be null";
-    private static final String STOCK_PERSISTED = "true";
     // required to keep track of last record which was
     // persisted in the database so that proper assertions can be
     // carried out on the last id retrieved by the data processor.
@@ -57,6 +53,12 @@ public class StockControllerTest {
     // since in some rare scenarios it was returning the previous
     // stock just before persisting the new stock in the database.
     private static long sleepTime = 500;
+    //Required to convert objects to json objects when sending rest requests.
+    private static Gson gson = new Gson();
+
+    private static String convertToJsonString(Object o) {
+        return gson.toJson(o);
+    }
 
     @Before
     public void setup() {
@@ -86,13 +88,13 @@ public class StockControllerTest {
     @Test
     public void setStockTest() throws Exception {
         Stock stock = new Stock(CORRECT_VALUE, StockType.AMZO);
+        lastId++;
         mockMvc.perform(post(SETTER_URL)
-                .content(Utils.convertToJsonString(stock))
+                .content(convertToJsonString(stock))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(content().string(STOCK_PERSISTED))
+                .andExpect(content().string(populateJsonString(stock)))
                 .andExpect(status().isOk());
-        lastId++;
     }
 
     /**
@@ -103,7 +105,7 @@ public class StockControllerTest {
     public void setStockTestNullValue() throws Exception {
         Stock stock = new Stock(null, StockType.AMZO);
         mockMvc.perform(post(SETTER_URL)
-                .content(Utils.convertToJsonString(stock))
+                .content(convertToJsonString(stock))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(content().string(NULL_VALUE_MSG))
@@ -118,7 +120,7 @@ public class StockControllerTest {
     public void setStockTestNullType() throws Exception {
         Stock stock = new Stock(CORRECT_VALUE, null);
         mockMvc.perform(post(SETTER_URL)
-                .content(Utils.convertToJsonString(stock))
+                .content(convertToJsonString(stock))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(content().string(NULL_TYPE_MSG))
@@ -133,7 +135,7 @@ public class StockControllerTest {
     public void setStockTestIncorrectMaxValue() throws Exception {
         Stock stock = new Stock(INCORRECT_MAX_VALUE, StockType.AMZO);
         mockMvc.perform(post(SETTER_URL)
-                .content(Utils.convertToJsonString(stock))
+                .content(convertToJsonString(stock))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(content().string(INCORRECT_MAX_VALUE_MSG))
@@ -148,7 +150,7 @@ public class StockControllerTest {
     public void setStockTestIncorrectMinValue() throws Exception {
         Stock stock = new Stock(INCORRECT_MIN_VALUE, StockType.AMZO);
         mockMvc.perform(post(SETTER_URL)
-                .content(Utils.convertToJsonString(stock))
+                .content(convertToJsonString(stock))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(content().string(INCORRECT_MIN_VALUE_MSG))
@@ -163,7 +165,7 @@ public class StockControllerTest {
     public void getLastStockIdTestWith1Persist() throws Exception {
         Stock stock = new Stock(CORRECT_VALUE, StockType.APPL);
         mockMvc.perform(post(SETTER_URL)
-                        .content(Utils.convertToJsonString(stock))
+                        .content(convertToJsonString(stock))
                         .contentType(MediaType.APPLICATION_JSON));
         lastId++;
         Thread.sleep(sleepTime);
@@ -182,17 +184,17 @@ public class StockControllerTest {
     public void getLastStockIdTestWith3Persists() throws Exception {
         Stock stock = new Stock(CORRECT_VALUE, StockType.AMZO);
         mockMvc.perform(post(SETTER_URL)
-                .content(Utils.convertToJsonString(stock))
+                .content(convertToJsonString(stock))
                 .contentType(MediaType.APPLICATION_JSON));
         lastId++;
         stock = new Stock(CORRECT_VALUE, StockType.GOOG);
         mockMvc.perform(post(SETTER_URL)
-                .content(Utils.convertToJsonString(stock))
+                .content(convertToJsonString(stock))
                 .contentType(MediaType.APPLICATION_JSON));
         lastId++;
         stock = new Stock(CORRECT_VALUE, StockType.APPL);
         mockMvc.perform(post(SETTER_URL)
-                .content(Utils.convertToJsonString(stock))
+                .content(convertToJsonString(stock))
                 .contentType(MediaType.APPLICATION_JSON));
         lastId++;
         Thread.sleep(sleepTime);

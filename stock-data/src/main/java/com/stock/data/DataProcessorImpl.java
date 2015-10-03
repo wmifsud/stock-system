@@ -46,7 +46,7 @@ public class DataProcessorImpl implements DataProcessor {
         // We need to cache this result so that unnecessary calls to query
         // the last stock can be avoided.
         Stock stock = stockRepository.findByMaxId();
-        log.info("Retrieved the following stock with maxId: {}", stock);
+        log.info("Retrieved the following stock with maxId from database: {}", stock);
         return stock;
     }
 }

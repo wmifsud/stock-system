@@ -1,6 +1,6 @@
 package com.stock.ws.controller;
 
-import com.stock.ws.service.WsProcessor;
+import com.stock.ws.processor.WsProcessor;
 import com.stock.ws.pojo.Stock;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

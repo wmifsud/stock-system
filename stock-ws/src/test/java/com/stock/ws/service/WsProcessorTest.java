@@ -3,6 +3,7 @@ package com.stock.ws.service;
 import com.stock.ws.gateway.GatewayService;
 import com.stock.ws.pojo.Stock;
 import com.stock.ws.pojo.StockType;
+import com.stock.ws.processor.WsProcessor;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

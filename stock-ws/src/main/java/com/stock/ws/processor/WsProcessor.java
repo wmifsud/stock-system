@@ -1,4 +1,4 @@
-package com.stock.ws.service;
+package com.stock.ws.processor;
 
 import com.stock.data.DataProcessor;
 import com.stock.ws.gateway.GatewayService;

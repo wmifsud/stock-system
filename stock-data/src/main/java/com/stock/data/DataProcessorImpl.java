@@ -2,9 +2,14 @@ package com.stock.data;
 
 import com.stock.data.entity.Stock;
 import com.stock.data.repository.StockRepository;
-import com.stock.data.repository.StockRepositoryImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 /**
@@ -26,9 +31,12 @@ public class DataProcessorImpl implements DataProcessor {
      * @param stock to be stored in the database.
      */
     @Override
-    public void persist(Stock stock) {
+    @CacheEvict(value = "stock", allEntries = true)
+    public Stock persist(Stock stock) {
+        // CacheEvict invalidates the cache once new stock is persisted in the database.
+        // This is important since we need the system to query the database only once new stock is persisted.
         log.info("Storing {} in database", stock);
-        stockRepository.save(stock);
+        return stockRepository.save(stock);
     }
 
     /**
@@ -37,7 +45,10 @@ public class DataProcessorImpl implements DataProcessor {
      * @return {link Long}
      */
     @Override
+    @Cacheable("stock")
     public Stock getLastStock() {
+        // We need to cache this result so that unnecessary calls to query
+        // the last stock can be avoided since no new stock has been entered from the last persist.
         Stock stock = stockRepository.findByMaxId();
         log.info("Retrieved the following stock with maxId: {}", stock);
         return stock;

@@ -9,12 +9,19 @@
                                  http://www.springframework.org/schema/integration/spring-integration.xsd">
 
     <!-- integration channel used to post the transformed entity to be persisted in the database -->
-    <si:channel id="postChannel">
+    <si:channel id="gatewayChannel">
         <si:queue capacity="5"/>
     </si:channel>
 
+    <gateway id="gatewayService"
+             service-interface="com.stock.ws.gateway.GatewayService"
+             default-request-channel="gatewayChannel"
+             default-reply-timeout="5000" />
+
+
     <!-- adapter used to post the Stock entity to the dataProcessorImpl class so that it can be persisted via the persist method -->
-    <service-activator input-channel="postChannel" ref="dataProcessorImpl" method="persist">
+    <service-activator input-channel="gatewayChannel">
+        <beans:bean class="com.stock.ws.gateway.GatewayServiceImpl" />
         <poller fixed-delay="100"/>
     </service-activator>
 

@@ -1,9 +1,10 @@
 package com.stock.ws.controller;
 
+import com.stock.customer.Customer;
+import com.stock.customer.CustomerService;
 import com.stock.ws.pojo.ShowStock;
 import com.stock.ws.service.WsProcessor;
 import com.stock.ws.pojo.Stock;
-import com.stock.ws.pojo.StockType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -26,18 +27,19 @@ public class StockController {
     private WsProcessor wsProcessor;
 
     @RequestMapping(value = "/setStock", method = RequestMethod.POST)
-    public Boolean setStock(@Validated @RequestBody Stock stock) {
+    public Stock setStock(@Validated @RequestBody Stock stock) {
         log.info("Received request to setStock with value: {} and type: {}", stock.getValue(), stock.getType());
-        boolean wasSuccessful = wsProcessor.post(stock);
-        log.debug("Successful request for setStock with value: {}? {}", stock.getValue(), wasSuccessful);
-        return wasSuccessful;
+        Stock savedStock = wsProcessor.post(stock);
+        log.debug("Successful request for setStock with value: {}", savedStock);
+        return savedStock;
     }
 
     @RequestMapping(value = "/getLastStock", method = RequestMethod.GET)
     public Stock getLastStock() {
+
         log.info("Received request to retrieve the last stock persisted");
-        ShowStock showStock = wsProcessor.getLastStock();
-        log.debug("Last stock retrieved: {}", showStock);
-        return showStock;
+        Stock stock = wsProcessor.getLastStock();
+        log.debug("Last stock retrieved: {}", stock);
+        return stock;
     }
 }

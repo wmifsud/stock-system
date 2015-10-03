@@ -1,7 +1,8 @@
-package com.stock.data.repository;
+package com.stock.data.repository.impl;
 
 import com.stock.data.entity.QStock;
 import com.stock.data.entity.Stock;
+import com.stock.data.repository.StockRepositoryCustom;
 import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport;
 
 /**

@@ -12,6 +12,8 @@ import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeoutException;
+
 /**
  * @author waylon.mifsud
  * @since 30/09/2015
@@ -39,12 +41,12 @@ public class WsProcessor {
      * @param stock {@link Stock} the stock to be stored.
      * @return {@link Stock} with the new id provided by the database.
      */
-    public Stock post(Stock stock) {
+    public Stock post(Stock stock) throws TimeoutException {
         com.stock.data.entity.Stock result =
                 gatewayService.postStock(mapper.map(stock, com.stock.data.entity.Stock.class));
         //null returned by gateway signifies timeout
         if (result == null) {
-            throw new RuntimeException(TIMEOUT_MSG + stock);
+            throw new TimeoutException(TIMEOUT_MSG + stock);
         }
         return mapper.map(result, ShowStock.class);
     }

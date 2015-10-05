@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.concurrent.TimeoutException;
+
 /**
  * @author Waylon.Mifsud
  * @since 01/10/2015
@@ -26,6 +28,19 @@ public class StockControllerValidation {
         BindingResult result = ex.getBindingResult();
         FieldError error = result.getFieldError();
         return error.getDefaultMessage();
+    }
+
+    /**
+     * TimeoutException which may be thrown by the gateway
+     * in case when the channel takes too long to respond.
+     * @param ex {@link TimeoutException}
+     * @return {@link String} the error message.
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(TimeoutException.class)
+    public String processValidationError(TimeoutException ex) {
+        return ex.getMessage();
     }
 
     /**

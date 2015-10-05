@@ -7,6 +7,8 @@ import com.stock.ws.pojo.Stock;
 import com.stock.ws.pojo.StockType;
 import com.stock.ws.processor.WsProcessor;
 import junit.framework.TestCase;
+import ma.glasnost.orika.MapperFacade;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -14,12 +16,14 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * @author Waylon.Mifsud
@@ -29,6 +33,8 @@ import java.time.temporal.ChronoUnit;
 @SpringApplicationConfiguration(classes = StockWsApplication.class)
 public class WsProcessorTest {
 
+    @Mock
+    private MapperFacade mapperFacade;
     @Mock
     private GatewayService gatewayService;
     @Mock
@@ -42,14 +48,20 @@ public class WsProcessorTest {
     @Rule
     public ExpectedException thrownException = ExpectedException.none();
 
+    @Before
+    public void init() {
+        MockitoAnnotations.initMocks(this);
+    }
+
     /**
      * Test asserts that a timeout message is returned;
      */
-    @Test(expected = RuntimeException.class)
-    public void postStockTimeout() {
+    @Test(expected = TimeoutException.class)
+    public void postStockTimeout() throws TimeoutException {
         Stock stock = new Stock(1L, StockType.AMZO);
         Mockito.when(gatewayService.postStock(Mockito.any())).thenReturn(null);
-        wsProcessorMock.post(new Stock());
+        Mockito.when(mapperFacade.map(Mockito.any(),Mockito.any())).thenReturn(null);
+        wsProcessorMock.post(stock);
         thrownException.expectMessage(WsProcessor.TIMEOUT_MSG + stock);
     }
 
@@ -57,7 +69,7 @@ public class WsProcessorTest {
      * Method asserts caching is working as expected.
      */
     @Test
-    public void testCache() {
+    public void testCache() throws TimeoutException {
         //before and after are used to identify how long a request took.
         LocalDateTime before;
         LocalDateTime after;

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.TimeoutException;
+
 /**
  * @author waylon.mifsud
  * @since 26/09/2015
@@ -24,7 +26,7 @@ public class StockController {
     private WsProcessor wsProcessor;
 
     @RequestMapping(value = "/setStock", method = RequestMethod.POST)
-    public Stock setStock(@Validated @RequestBody Stock stock) {
+    public Stock setStock(@Validated @RequestBody Stock stock) throws TimeoutException {
         log.info("Received request to setStock with value: {} and type: {}", stock.getValue(), stock.getType());
         Stock savedStock = wsProcessor.post(stock);
         log.debug("Successful request for setStock with value: {}", savedStock);

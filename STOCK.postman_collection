@@ -1,0 +1,48 @@
+{
+	"variables": [],
+	"info": {
+		"name": "STOCK_example",
+		"_postman_id": "ea6f8780-9ce2-2e1d-b477-ad777a61ac6b",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "setStock",
+			"request": {
+				"url": "http://localhost:8080/setStock",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"value\":15,\"type\":\"APPL\"}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "getLastStock",
+			"request": {
+				"url": "http://localhost:8080/getLastStock",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

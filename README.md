@@ -3,6 +3,13 @@
 This system lets you post stock to a queue and this stock gets stored in a database via a queued channel.
 It also lets you retrieve the last stock which exists in the database.
 
+Prerequisites
+
+1. Open application in IntellijCE.
+2. Run gradle clean build.
+3. Start application by running StockWsApplication.
+4. Import STOCK.postman_collection to test application.
+
 How-to
 Post stock to the database using rest web services.
 

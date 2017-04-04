@@ -6,10 +6,11 @@ It also lets you retrieve the last stock which exists in the database.
 Prerequisites
 
 1. Open application in IntellijCE.
-2. Enable Annotation Processing via preferences.
-3. Run gradle clean build.
-4. Start application by running StockWsApplication.
-5. Import STOCK.postman_collection to test application.
+2. Install lombok plugin.
+3. Enable Annotation Processing via preferences.
+4. Run gradle clean build.
+5. Start application by running StockWsApplication.
+6. Import STOCK.postman_collection to test application.
 
 How-to
 Post stock to the database using rest web services.

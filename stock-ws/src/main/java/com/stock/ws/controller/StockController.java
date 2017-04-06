@@ -2,7 +2,8 @@ package com.stock.ws.controller;
 
 import com.stock.ws.processor.WsProcessor;
 import com.stock.ws.pojo.Stock;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,27 +19,28 @@ import java.util.concurrent.TimeoutException;
  *
  * Controller for the RESTful web service.
  */
-@Slf4j
 @RestController
 public class StockController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(StockController.class);
 
     @Autowired
     private WsProcessor wsProcessor;
 
     @RequestMapping(value = "/setStock", method = RequestMethod.POST)
     public Stock setStock(@Validated @RequestBody Stock stock) throws TimeoutException {
-        log.info("Received request to setStock with value: {} and type: {}", stock.getValue(), stock.getType());
+        LOG.info("Received request to setStock with value: {} and type: {}", stock.getValue(), stock.getType());
         Stock savedStock = wsProcessor.post(stock);
-        log.debug("Successful request for setStock with value: {}", savedStock);
+        LOG.debug("Successful request for setStock with value: {}", savedStock);
         return savedStock;
     }
 
     @RequestMapping(value = "/getLastStock", method = RequestMethod.GET)
     public Stock getLastStock() {
 
-        log.info("Received request to retrieve the last stock persisted");
+        LOG.info("Received request to retrieve the last stock persisted");
         Stock stock = wsProcessor.getLastStock();
-        log.debug("Last stock retrieved: {}", stock);
+        LOG.debug("Last stock retrieved: {}", stock);
         return stock;
     }
 }

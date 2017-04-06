@@ -32,7 +32,6 @@ dependencies {
     compile("ch.qos.logback:logback-classic:${logbackVersion}")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-data-rest")
-    compile("org.projectlombok:lombok:$lombokVersion")
     runtime("org.hsqldb:hsqldb:${hsqldbVersion}")
     compile("com.mysema.querydsl:querydsl-core:$queryDslVersion")
     querydslapt "com.mysema.querydsl:querydsl-apt:$queryDslVersion"

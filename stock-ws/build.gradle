@@ -21,7 +21,6 @@ apply plugin: 'io.spring.dependency-management'
 description = 'stock-ws'
 
 dependencies {
-    compile("org.projectlombok:lombok:$lombokVersion")
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-starter-integration")
     testCompile("org.springframework.boot:spring-boot-starter-test")

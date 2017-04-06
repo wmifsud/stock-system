@@ -2,7 +2,8 @@ package com.stock.data;
 
 import com.stock.data.entity.Stock;
 import com.stock.data.repository.StockRepository;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -15,9 +16,10 @@ import org.springframework.stereotype.Service;
  * Data layer making use of the repository class
  * to store/retrieve data from the database.
  */
-@Slf4j
 @Service
 public class DataProcessorImpl implements DataProcessor {
+
+    private static final Logger LOG = LoggerFactory.getLogger(DataProcessorImpl.class);
 
     @Autowired
     private StockRepository stockRepository;
@@ -31,7 +33,7 @@ public class DataProcessorImpl implements DataProcessor {
     public Stock persist(Stock stock) {
         // CacheEvict invalidates the cache once new stock
         // is persisted in the database.
-        log.info("Storing {} in database", stock);
+        LOG.info("Storing {} in database", stock);
         return stockRepository.save(stock);
     }
 
@@ -46,7 +48,7 @@ public class DataProcessorImpl implements DataProcessor {
         // We need to cache this result so that unnecessary calls to query
         // the last stock can be avoided.
         Stock stock = stockRepository.findByMaxId();
-        log.info("Retrieved the following stock with maxId from database: {}", stock);
+        LOG.info("Retrieved the following stock with maxId from database: {}", stock);
         return stock;
     }
 }
